@@ -1,7 +1,9 @@
+import os
 import json
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
-import os
 from dotenv import load_dotenv
 
 
@@ -58,8 +60,25 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         except Exception as e:
             print("❌ Failed to react:", e)
 
+
+# === Fake HTTP server for Render health check ===
+def run_fake_server():
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"Bot is running")
+
+    port = int(os.environ.get("PORT", 10000))
+    server = HTTPServer(("0.0.0.0", port), Handler)
+    server.serve_forever()
+
+
 # === Main app ===
 if __name__ == '__main__':
+
+    # Start HTTP server in a background thread
+    threading.Thread(target=run_fake_server, daemon=True).start()
     app = ApplicationBuilder().token(BOT_TOKEN).build()
 
     app.add_handler(MessageHandler(filters.ALL & filters.ChatType.GROUPS, handle_message))
