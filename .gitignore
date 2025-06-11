@@ -130,6 +130,7 @@ venv.bak/
 
 # settings 
 .flake8
+*.json
 
 # Spyder project settings
 .spyderproject
