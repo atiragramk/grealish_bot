@@ -10,7 +10,7 @@ load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 REACTION_EMOJI = "💊"
 USER_DATA_FILE = "user_ids.json"
-TARGET_USER_IDS = {887099850, 92451378}
+TARGET_USER_IDS = {887099850, 92451378, 539630621}
 
 KEYWORDS = ["мю", "юнайтед", "манчестер юнайтед", 'mu', 'united', 'manchester united']
 
