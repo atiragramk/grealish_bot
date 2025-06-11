@@ -15,7 +15,7 @@ REACTION_EMOJI = "💊"
 USER_DATA_FILE = "user_ids.json"
 TARGET_USER_IDS = ast.literal_eval(os.environ["IDS_LIST"])
 
-KEYWORDS = ["мю", "юнайтед", "манчестер юнайтед", 'mu', 'united', 'manchester united']
+KEYWORDS = ["мю", "юнайтед", "манчестер юнайтед", 'mu', 'united', 'manchester united', 'му']
 
 
 # === Load/save user IDs ===
@@ -51,7 +51,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if username not in user_data or user_data[username] != user.id:
         user_data[username] = user.id
         save_user_data(user_data)
-        print(f"🔹 Saved user: {username} → {user.id}")
+        print(f"🔹 Saved user: {username} → {user.id}// {message_text}")
 
     # React if user_id matches
     if user.id in TARGET_USER_IDS and any(keyword in message_text for keyword in KEYWORDS):
